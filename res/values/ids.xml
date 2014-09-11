@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="id_jacket"></item>
+    <item type="id" name="id_accessory"></item>
+    <item type="id" name="id_pants"></item>
+    <item type="id" name="id_skirt"></item>
+    <item type="id" name="id_bag"></item>
+    <item type="id" name="id_shoes"></item>
+</resources>
