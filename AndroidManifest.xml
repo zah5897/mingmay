@@ -46,8 +46,11 @@
         <activity android:name="com.tencent.weibo.sdk.android.component.Authorize" />
 
         <service
-            android:name=".cc.service.CCService"
+            android:name=".service.CCService"
             android:exported="false" >
+            <intent-filter>
+                <action android:name="CC_CHAT_LOGIN"/>
+            </intent-filter>
         </service>
     </application>
 

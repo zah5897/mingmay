@@ -54,13 +54,13 @@ public class ChatPage extends Activity {
 	private EditText msgText;
 	private ProgressBar pb;
 
- 
+    private String friendName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.formclient);
-		
+		friendName=getIntent().getStringExtra("friendName");
 		//��ȡIntent���������û���
 		this.pUSERID = getIntent().getStringExtra("USERID");
 		
@@ -76,12 +76,7 @@ public class ChatPage extends Activity {
 
 		//��Ϣ����
 		ChatManager cm = XmppTool.getConnection().getChatManager();
-		//������Ϣ��water-pc������water����ȡ�Լ��ķ��������ͺ��ѣ�
-//		final Chat newchat = cm.createChat(this.pUSERID+"@water-pc", null);
-		final Chat newchat = cm.createChat("lee@water-pc", null);
-		final Chat newchat1 = cm.createChat("chai@water-pc", null);
-		final Chat newchat2 = cm.createChat("huang@water-pc", null);
-		
+		final Chat newchat = cm.createChat(friendName, null);
 		cm.addChatListener(new ChatManagerListener() {
 			@Override
 			public void chatCreated(Chat chat, boolean able) 
@@ -141,16 +136,10 @@ public class ChatPage extends Activity {
 				String msg = msgText.getText().toString();
 				
 				if(msg.length() > 0){
-					//������Ϣ
 					listMsg.add(new Msg(pUSERID, msg, TimeRender.getDate(), "OUT"));
-					//ˢ��������
 					adapter.notifyDataSetChanged();
-					
 					try {
-						//������Ϣ��xiaowang
 						newchat.sendMessage(msg);
-						newchat1.sendMessage(msg);
-						newchat2.sendMessage(msg);
 					} 
 					catch (XMPPException e)
 					{
@@ -161,7 +150,6 @@ public class ChatPage extends Activity {
 				{
 					Toast.makeText(ChatPage.this, "��������Ϣ", Toast.LENGTH_SHORT).show();
 				}
-				//���text
 				msgText.setText("");
 			}
 		});

@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 
 public class CCService extends Service {
-	public static final String Action_LOGIN="CC_CHAT_LOGIN";
+	public static final String Action_LOGIN = "CC_CHAT_LOGIN";
 	private boolean logining=false;
 	@Override
 	public IBinder onBind(Intent arg0) {
