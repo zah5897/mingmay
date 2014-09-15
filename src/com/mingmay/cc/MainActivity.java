@@ -22,8 +22,8 @@ import com.mingmay.cc.adapter.MyFragmentPagerAdapter;
 import com.mingmay.cc.app.CCApplication;
 import com.mingmay.cc.fragment.main.PlanFragment;
 import com.mingmay.cc.fragment.main.WeatherFragment;
+import com.mingmay.cc.ui.LatestChatFriendPage;
 import com.mingmay.cc.ui.LoginPage;
-import com.mingmay.cc.ui.chat.FriendsCircle;
 import com.mingmay.cc.view.PointView;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.layout_main);
 		DisplayMetrics d = getResources().getDisplayMetrics();
 		CCApplication.screenWidth = d.widthPixels;
@@ -159,8 +159,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		// TODO Auto-generated method stub
-		Intent i = new Intent(this,LoginPage.class);
-		startActivity(i);
+		if(CCApplication.loginUser==null){
+			Intent i = new Intent(this,LoginPage.class);
+			startActivity(i);
+		}else{
+			Intent i = new Intent(this,LatestChatFriendPage.class);
+			startActivity(i);
+		}
+		
 	}
 
 	public class MyOnPageChangeListener implements OnPageChangeListener {

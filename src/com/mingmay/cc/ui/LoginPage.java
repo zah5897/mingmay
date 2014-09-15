@@ -54,6 +54,7 @@ public class LoginPage extends Activity implements OnClickListener {
 	private void initView() {
 		username = (EditText) findViewById(R.id.username);
 		password = (EditText) findViewById(R.id.password);
+		
 		findViewById(R.id.to_login).setOnClickListener(this);
 		findViewById(R.id.tx).setOnClickListener(this);
 		findViewById(R.id.sina).setOnClickListener(this);
@@ -89,7 +90,8 @@ public class LoginPage extends Activity implements OnClickListener {
 		String name=username.getText().toString();
 		String pwd=password.getText().toString();
 		LoginTask task=new LoginTask(this);
-		task.execute(name,pwd);
+		task.execute("5996957","123456");
+//		task.execute(name,pwd);
 		
 	}
 	@Override

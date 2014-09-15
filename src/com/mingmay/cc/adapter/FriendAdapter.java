@@ -3,8 +3,9 @@ package com.mingmay.cc.adapter;
 import java.util.ArrayList;
 
 import com.mingmay.cc.R;
+import com.mingmay.cc.app.cache.ImageLoader;
 import com.mingmay.cc.model.Friend;
-import com.mingmay.cc.ui.chat.FriendsCircle;
+import com.mingmay.cc.ui.LatestChatFriendPage;
 import com.mingmay.cc.util.TimeUtil;
 
 import android.view.View;
@@ -14,16 +15,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class FriendAdapter extends BaseAdapter {
-	private FriendsCircle activity;
-
-	public FriendAdapter(FriendsCircle activity, ArrayList<Friend> friends) {
+	private LatestChatFriendPage activity;
+    private ImageLoader imgLoader;
+	public FriendAdapter(LatestChatFriendPage activity, ArrayList<Friend> friends) {
 		// TODO Auto-generated constructor stub
 		this.activity = activity;
 		this.friends = friends;
+		imgLoader=new ImageLoader(activity);
 	}
 
 	private ArrayList<Friend> friends;
 
+	public void clearAndAdd(ArrayList<Friend> friends){
+		this.friends.clear();
+		this.friends.addAll(friends);
+		notifyDataSetChanged();
+	}
+	public void clear(){
+		this.friends.clear();
+		notifyDataSetChanged();
+	}
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -58,10 +69,11 @@ public class FriendAdapter extends BaseAdapter {
 		} else {
 			viewHold = (ViewHolder) convertView.getTag();
 		}
-		viewHold.icon.setImageResource(R.drawable.ic_launcher);
-		viewHold.name.setText("了走天涯");
-		viewHold.lastmsg.setText("null");
-		viewHold.time.setText(TimeUtil.currentLocalTimeString());
+		Friend f=(Friend) getItem(position);
+		imgLoader.DisplayImage(f.userImg, viewHold.icon);
+		viewHold.name.setText(f.firstName);
+		viewHold.lastmsg.setText(f.lastChatMessage);
+		viewHold.time.setText(f.chatMessageDate);
 		return convertView;
 	}
 

@@ -3,15 +3,12 @@ package com.mingmay.cc.service;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
 
-import com.mingmay.cc.ui.chat.ChatPage;
-import com.xmpp.client.util.XmppTool;
-
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
-import android.view.View;
-import android.widget.Toast;
+
+import com.mingmay.cc.app.CCApplication;
+import com.xmpp.client.util.XmppTool;
 
 
 public class CCService extends Service {
@@ -45,23 +42,11 @@ public class CCService extends Service {
 	private void chatLogin(final String USERID,final String PWD){
 		Thread t=new Thread(new Runnable() {				
 			public void run() {
-				//sendEmptyMessage:����һ����Ϣ
-				//handler.sendEmptyMessage(1);
 				logining=true;
 				try {
-					//����
-					XmppTool.getConnection().login(USERID, PWD);
-//					Log.i("XMPPClient", "Logged in as " + XmppTool.getConnection().getUser());
-					
-					//״̬
+					XmppTool.getConnection().login(CCApplication.loginUser.loginName, CCApplication.loginUser.ccukey);
 					Presence presence = new Presence(Presence.Type.available);
 					XmppTool.getConnection().sendPacket(presence);
-					
-					Intent intent = new Intent();
-					//intent.setClass(FormLogin.this, FormClient.class);
-					intent.putExtra("USERID", USERID);
-					//FormLogin.this.startActivity(intent);
-					//FormLogin.this.finish();
 					logining=false;
 				}
 				catch (XMPPException e) 

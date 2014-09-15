@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp" >
+    android:layout_height="50dp"
+    android:background="@drawable/navbar" >
 
-    <ImageButton
+    <ImageView
         android:id="@+id/left_btn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true" />
-
-    <ImageButton
-        android:id="@+id/right_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/back_selector" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:text="首页" />
+        android:gravity="center"
+        android:text="首页"
+        android:textColor="@color/grey"
+        android:textSize="18sp" />
 
 </RelativeLayout>

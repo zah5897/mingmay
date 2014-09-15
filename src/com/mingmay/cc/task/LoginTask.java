@@ -24,9 +24,10 @@ import android.util.Log;
 
 import com.mingmay.cc.app.CCApplication;
 import com.mingmay.cc.model.User;
+import com.mingmay.cc.ui.LatestChatFriendPage;
 import com.mingmay.cc.ui.LoginPage;
-import com.mingmay.cc.ui.chat.FriendsCircle;
 import com.mingmay.cc.util.ToastUtil;
+import com.mingmay.cc.util.http.HttpProxy;
 import com.tencent.weibo.sdk.android.api.UserAPI;
 import com.tencent.weibo.sdk.android.api.util.Util;
 import com.tencent.weibo.sdk.android.model.BaseVO;
@@ -77,7 +78,7 @@ public class LoginTask extends AsyncTask<String, String, Integer> {
 		// TODO Auto-generated method stub
 		if(result!=0){
 			ToastUtil.showToast(loginPage, "login success!");
-			Intent i=new Intent(loginPage,FriendsCircle.class);
+			Intent i=new Intent(loginPage,LatestChatFriendPage.class);
 			loginPage.startActivity(i);
 			loginPage.finish();
 		}
@@ -86,27 +87,19 @@ public class LoginTask extends AsyncTask<String, String, Integer> {
 
 	private int Http(String url, String username, String password)
 			throws JSONException, ClientProtocolException, IOException {
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(url);
-		// 添加http头信息
-
+		//DefaultHttpClient httpclient = new DefaultHttpClient();
+		//HttpPost httppost = new HttpPost(url);
 		List<NameValuePair> param = new ArrayList<NameValuePair>();
 		param.addAll(CCApplication.header);
 		param.add(new BasicNameValuePair("loginName", username));
 		param.add(new BasicNameValuePair("password", password));
-		httppost.setEntity(new UrlEncodedFormEntity(param));
-		HttpResponse response;
-		response = httpclient.execute(httppost);
-		// 检验状态码，如果成功接收数据
+		//httppost.setEntity(new UrlEncodedFormEntity(param));
+		HttpResponse response=new HttpProxy().post(url, param);
 		int code = response.getStatusLine().getStatusCode();
 		if (code == 200) {
 			String rev = EntityUtils.toString(response.getEntity());// 返回json格式：
-																	// {"id":
-																	// "27JpL~j4vsL0LX00E00005","version":
-																	// "abc"}
 			JSONObject obj = new JSONObject(rev);
-			JSONObject userJson = obj.getJSONObject("body").getJSONObject(
-					"userInfo");
+			JSONObject userJson = obj.getJSONObject("body").getJSONObject("userInfo");
 			CCApplication.loginUser = User.jsonToUser(userJson);
 			return 1;
 		} else {

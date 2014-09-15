@@ -28,29 +28,38 @@
         android:listSelector="@android:color/transparent"
         android:stackFromBottom="true" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFEEEEEE" >
 
-        <EditText
-            android:id="@+id/formclient_text"
+        <ImageView
+            android:id="@+id/smile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1.0"
-            android:hint="请输入內容"/>
-<!--             android:inputType="textWebEditText" -->
-        <Button
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/emoji_icon" />
+
+        <EditText
+            android:id="@+id/formclient_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/formclient_btsend"
+            android:layout_toRightOf="@+id/smile"
+            android:hint="请输入內容" />
+        <!-- android:inputType="textWebEditText" -->
+
+        <ImageView
             android:id="@+id/formclient_btsend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送" />
-
-        <Button
-            android:id="@+id/formclient_btattach"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="附加" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/enter_icon" />
+    </RelativeLayout>
 
 </LinearLayout>

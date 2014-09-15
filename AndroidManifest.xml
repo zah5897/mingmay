@@ -36,12 +36,12 @@
         <activity
             android:name=".ui.LoginPage"
             android:launchMode="singleTask" />
+        <activity android:name=".ui.FriendCircle" />
         <activity
-            android:name=".ui.chat.FriendsCircle"
+            android:name="com.mingmay.cc.ui.LatestChatFriendPage"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".ui.chat.ChatPage"
-            android:windowSoftInputMode="adjustPan" />
+        <activity android:name="com.xmpp.client.FormLogin" />
+        <activity android:name="com.xmpp.client.FormClient" />
         <activity android:name="com.xmpp.client.FormFiles" />
         <activity android:name="com.tencent.weibo.sdk.android.component.Authorize" />
 
@@ -49,7 +49,7 @@
             android:name=".service.CCService"
             android:exported="false" >
             <intent-filter>
-                <action android:name="CC_CHAT_LOGIN"/>
+                <action android:name="CC_CHAT_LOGIN" />
             </intent-filter>
         </service>
     </application>
