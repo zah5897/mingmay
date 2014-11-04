@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/friend_tab"
+        android:layout_alignParentTop="true" />
+
+    <RadioGroup
+        android:id="@+id/friend_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_weibo_listab"
+        android:checkedButton="@+id/friend_circle"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/friend_circle"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/weibolist_attention_selector"
+            android:text="朋友圈" />
+
+        <RadioButton
+            android:id="@+id/chat"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/weibolist_atme_selector"
+            android:text="聊天" />
+
+        <RadioButton
+            android:id="@+id/friend"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/weibolist_comment_selector"
+            android:text="好友" />
+    </RadioGroup>
+
+</RelativeLayout>
