@@ -36,11 +36,9 @@
         <activity
             android:name=".ui.LoginPage"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.FriendCircle" />
-        <activity
-            android:name="com.mingmay.cc.ui.LatestChatFriendPage"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name="com.xmpp.client.FormLogin" />
+        <activity android:name=".ui.RegistPage" />
+        <activity android:name=".ui.FriendTabPage" />
+        <activity android:name=".ui.FriendOperate" />
         <activity android:name="com.xmpp.client.FormClient" />
         <activity android:name="com.xmpp.client.FormFiles" />
         <activity android:name="com.tencent.weibo.sdk.android.component.Authorize" />

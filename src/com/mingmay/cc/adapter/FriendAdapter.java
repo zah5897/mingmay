@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import com.mingmay.cc.R;
 import com.mingmay.cc.app.cache.ImageLoader;
 import com.mingmay.cc.model.Friend;
-import com.mingmay.cc.ui.LatestChatFriendPage;
-import com.mingmay.cc.util.TimeUtil;
+import com.mingmay.cc.ui.ChatListpage;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class FriendAdapter extends BaseAdapter {
-	private LatestChatFriendPage activity;
+	private Context activity;
     private ImageLoader imgLoader;
-	public FriendAdapter(LatestChatFriendPage activity, ArrayList<Friend> friends) {
+	public FriendAdapter(Context activity, ArrayList<Friend> friends) {
 		// TODO Auto-generated constructor stub
 		this.activity = activity;
 		this.friends = friends;
@@ -58,7 +59,7 @@ public class FriendAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		ViewHolder viewHold;
 		if (convertView == null) {
-			convertView = activity.getLayoutInflater().inflate(
+			convertView = LayoutInflater.from(activity).inflate(
 					R.layout.layout_item_friend, null);
 			viewHold=new ViewHolder();
 			viewHold.icon=(ImageView) convertView.findViewById(R.id.head_icon);

@@ -15,15 +15,15 @@ import org.json.JSONObject;
 
 import com.mingmay.cc.app.CCApplication;
 import com.mingmay.cc.model.Friend;
-import com.mingmay.cc.ui.LatestChatFriendPage;
+import com.mingmay.cc.ui.ChatListpage;
 import com.mingmay.cc.util.http.HttpProxy;
 
 import android.os.AsyncTask;
 
 public class LatestChatFriendTask extends AsyncTask<String, String, Integer> {
 	ArrayList<Friend> data;
-	LatestChatFriendPage page;
-	public LatestChatFriendTask(LatestChatFriendPage page){
+	ChatListpage page;
+	public LatestChatFriendTask(ChatListpage page){
 		this.page=page;
 	}
 	@Override

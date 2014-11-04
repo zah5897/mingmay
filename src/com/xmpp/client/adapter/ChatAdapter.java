@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.mingmay.cc.R;
 import com.mingmay.cc.app.cache.ImageLoader;
 import com.mingmay.cc.model.Msg;
-import com.sina.weibo.sdk.api.ImageObject;
 import com.xmpp.client.FormClient;
 import com.xmpp.client.util.ExpressionUtil;
 

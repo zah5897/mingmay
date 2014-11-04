@@ -4,37 +4,58 @@
     android:layout_height="match_parent"
     android:background="@color/white" >
 
-    <include
-        android:id="@+id/topBar"
-        android:layout_alignParentTop="true"
-        layout="@layout/layout_titlebar" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/top_view_pager"
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_below="@+id/topBar"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation" >
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rg_tab"
+        android:layout_alignParentTop="true" />
 
-    <com.mingmay.cc.view.PointView
-        android:id="@+id/pageIndexView"
-         android:layout_below="@+id/top_view_pager"
+    <ImageView
+        android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@drawable/bar" >
-    </com.mingmay.cc.view.PointView>
+        android:layout_height="1dp"
+        android:layout_above="@+id/rg_tab"
+        android:background="@color/black" />
 
-    <LinearLayout
-        android:id="@+id/flowLayout"
+    <RadioGroup
+        android:id="@+id/rg_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pageIndexView"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="0dp" >
-    </LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:checkedButton="@+id/topic"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/topic"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/tab_topic_selector"
+            android:text="话题" />
+
+        <RadioButton
+            android:id="@+id/type"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/tab_classify_selector"
+            android:text="分类" />
+
+        <RadioButton
+            android:id="@+id/creator"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/tab_plan_selector"
+            android:text="布栏" />
+
+        <RadioButton
+            android:id="@+id/friends"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/tab_friend_selector"
+            android:text="朋友" />
+
+        <RadioButton
+            android:id="@+id/mine"
+            style="@style/weibo_tab"
+            android:drawableTop="@drawable/tab_mine_selector"
+            android:text="我的" />
+    </RadioGroup>
 
 </RelativeLayout>

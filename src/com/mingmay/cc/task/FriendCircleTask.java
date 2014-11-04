@@ -16,15 +16,15 @@ import org.json.JSONObject;
 import com.mingmay.cc.app.CCApplication;
 import com.mingmay.cc.model.Clothesinfo;
 import com.mingmay.cc.model.Friend;
-import com.mingmay.cc.ui.FriendCircle;
+import com.mingmay.cc.ui.FriendCirclePage;
 import com.mingmay.cc.util.http.HttpProxy;
 
 import android.os.AsyncTask;
 
 public class FriendCircleTask extends AsyncTask<String, String, Integer> {
-	private FriendCircle activity;
+	private FriendCirclePage activity;
 	ArrayList<Clothesinfo> data;
-	public FriendCircleTask(FriendCircle activity) {
+	public FriendCircleTask(FriendCirclePage activity) {
 		this.activity = activity;
 	}
 

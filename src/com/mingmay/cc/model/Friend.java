@@ -12,11 +12,10 @@ public class Friend implements Serializable{
 	public String userImg;
 	public int chatMessageCount;
 	public String lastChatMessage;
-	// public int sex;
-	// public int age;
-	// public String lastMsg;
 	public String chatMessageDate;
 
+	public String cellPhone;
+	public int isFan;
 	public static Friend jsonToFriend(JSONObject json) throws JSONException {
 		Friend f=new Friend();
 		f.id=json.getInt("id");
@@ -29,4 +28,14 @@ public class Friend implements Serializable{
 		return f;
 	}
 
+	public static Friend jsonToSearchFriend(JSONObject json) throws JSONException {
+		Friend f=new Friend();
+		f.id=json.getInt("id");
+		f.loginName=json.getString("loginName");
+		f.firstName=json.getString("firstName");
+		f.cellPhone=json.getString("cellPhone");
+		f.userImg=json.getString("userImg");
+		f.isFan=json.getInt("isFan");
+		return f;
+	}
 }
