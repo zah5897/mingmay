@@ -5,6 +5,7 @@
     <color name="tab_selected_red">#FF5335</color>
     <color name="black">#000000</color>
     <color name="orange">#FF8E32</color>
+    <color name="mine_tool_layout_gray">#EBEEF0</color>
     <color name="grey">#9C9C9C</color>
     <color name="regist_color">#5F8091</color>
     <color name="transparent">#00000000</color>

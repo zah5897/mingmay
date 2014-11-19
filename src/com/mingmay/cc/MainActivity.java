@@ -2,12 +2,13 @@ package com.mingmay.cc;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.widget.RadioGroup;
 
@@ -19,7 +20,7 @@ import com.mingmay.cc.ui.fragment.MineFragment;
 import com.mingmay.cc.ui.fragment.TopicFragment;
 import com.mingmay.cc.ui.fragment.TypeFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 	private FragmentManager fragmentManager;
 	private RadioGroup radioGroup;
 
@@ -32,7 +33,7 @@ public class MainActivity extends Activity {
 		CCApplication.screenWidth = d.widthPixels;
 		CCApplication.screenHeight = d.heightPixels;
 		CCApplication.density = d.density;
-		fragmentManager = getFragmentManager();
+		fragmentManager = getSupportFragmentManager();
 		radioGroup = (RadioGroup) findViewById(R.id.rg_tab);
 		radioGroup
 				.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

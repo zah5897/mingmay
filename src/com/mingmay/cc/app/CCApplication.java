@@ -16,10 +16,12 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.mingmay.cc.app.err.CrashApplication;
 import com.mingmay.cc.model.User;
+import com.mingmay.cc.util.PropertyUtil;
 import com.mingmay.cc.util.TimeUtil;
 
 public class CCApplication extends Application {
@@ -32,16 +34,17 @@ public class CCApplication extends Application {
 	public static String androidID;
 	public static String versionName;
 	public static String ln;
-    public static String mod=android.os.Build.MODEL;
-    
-//    public static final String HTTPSERVER="http://115.28.168.181:8080/cc";
-    public static final String HTTPSERVER="http://192.168.10.115:8080/cc";
-//    public static final String HTTPSERVER="http://192.168.10.116:8080/cc";
-//    public static final String HTTPSERVER="http://115.28.168.181:8080/cc";
-    public static List<NameValuePair> header;
-    
-    public static User loginUser;
-    
+	public static String mod = android.os.Build.MODEL;
+
+//	 public static final String HTTPSERVER="http://115.28.168.181:8080/cc";
+	public static final String HTTPSERVER = "http://192.168.10.115:8080/cc";
+	// public static final String HTTPSERVER="http://192.168.10.115:8080/cc";
+	// public static final String HTTPSERVER="http://192.168.10.116:8080/cc";
+	// public static final String HTTPSERVER="http://115.28.168.181:8080/cc";
+	public static List<NameValuePair> header;
+
+	public static User loginUser;
+
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -53,6 +56,16 @@ public class CCApplication extends Application {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		String info = PropertyUtil.getValue(getBaseContext(), "user_info");
+		if (!TextUtils.isEmpty(info)) {
+			try {
+				loginUser = User.jsonToUser(new JSONObject(info));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		super.onCreate();
 	}
 
@@ -61,10 +74,9 @@ public class CCApplication extends Application {
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		sid = tm.getDeviceId();
 		versionName = getVersion();
-		androidID="1002";
+		androidID = "1002";
 	}
 
-	 
 	private String getAndroidID() {
 		return android.provider.Settings.Secure.getString(getContentResolver(),
 				android.provider.Settings.Secure.ANDROID_ID);
@@ -81,52 +93,59 @@ public class CCApplication extends Application {
 		}
 		return "1.0";
 	}
-	
-	private void createHeader() throws UnsupportedEncodingException{
-		 List<NameValuePair> parameters = new ArrayList<NameValuePair>();  
-	        parameters.add(new BasicNameValuePair("aid", CCApplication.androidID));  
-	        parameters.add(new BasicNameValuePair("ver", CCApplication.versionName));  
-	        parameters.add(new BasicNameValuePair("ln", "zh_CN"));  
-//	        parameters.add(new BasicNameValuePair("cd",getVerByJava(CCApplication.androidID+CCApplication.versionName)));   
-	        parameters.add(new BasicNameValuePair("cd", "khc5+/1MxDiZ1bK77Jpt7A=="));   
-	        parameters.add(new BasicNameValuePair("sid", CCApplication.sid));  
-	        parameters.add(new BasicNameValuePair("mos", "ANDROID"));  
-	        parameters.add(new BasicNameValuePair("mod", CCApplication.mod));  
-	        parameters.add(new BasicNameValuePair("de", TimeUtil.currentLocalTimeString()));  
-	        parameters.add(new BasicNameValuePair("sync", "1")); 
-	        header=parameters;
+
+	private void createHeader() throws UnsupportedEncodingException {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("aid", CCApplication.androidID));
+		parameters
+				.add(new BasicNameValuePair("ver", CCApplication.versionName));
+		parameters.add(new BasicNameValuePair("ln", "zh_CN"));
+		// parameters.add(new
+		// BasicNameValuePair("cd",getVerByJava(CCApplication.androidID+CCApplication.versionName)));
+		parameters
+				.add(new BasicNameValuePair("cd", "khc5+/1MxDiZ1bK77Jpt7A=="));
+		parameters.add(new BasicNameValuePair("sid", CCApplication.sid));
+		parameters.add(new BasicNameValuePair("mos", "ANDROID"));
+		parameters.add(new BasicNameValuePair("mod", CCApplication.mod));
+		parameters.add(new BasicNameValuePair("de", TimeUtil
+				.currentLocalTimeString()));
+		parameters.add(new BasicNameValuePair("sync", "1"));
+		header = parameters;
 	}
-	private String getVer(String hasDe) throws UnsupportedEncodingException{
-		 
-		   MessageDigest md5;
+
+	private String getVer(String hasDe) throws UnsupportedEncodingException {
+
+		MessageDigest md5;
 		try {
 			md5 = MessageDigest.getInstance("md5");
 			byte[] by = md5.digest(hasDe.getBytes("UTF-8"));
-			String md5Str= new String(by);
-			 return android.util.Base64.encodeToString(md5Str.getBytes(), Base64.DEFAULT);
+			String md5Str = new String(by);
+			return android.util.Base64.encodeToString(md5Str.getBytes(),
+					Base64.DEFAULT);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-	    	 return "";
+		return "";
 	}
-	private String getVerByJava(String text) throws UnsupportedEncodingException{
-		
+
+	private String getVerByJava(String text)
+			throws UnsupportedEncodingException {
+
 		MessageDigest digester = null;
 
-		try{
+		try {
 			digester = MessageDigest.getInstance("MD5");
 
 			digester.update(text.getBytes("UTF-8"));
-		}
-		catch (NoSuchAlgorithmException nsae) {
-		}
-		catch (UnsupportedEncodingException uee) {
+		} catch (NoSuchAlgorithmException nsae) {
+		} catch (UnsupportedEncodingException uee) {
 		}
 
 		byte[] bytes = digester.digest();
 
-		  String result= android.util.Base64.encodeToString(bytes, Base64.DEFAULT);
-		  result=result.replace("\\n", "");
-       return result;
+		String result = android.util.Base64.encodeToString(bytes,
+				Base64.DEFAULT);
+		result = result.replace("\\n", "");
+		return result;
 	}
 }

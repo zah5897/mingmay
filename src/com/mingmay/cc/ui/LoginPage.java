@@ -8,8 +8,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.EditText;
 
+import com.mingmay.cc.MainActivity;
 import com.mingmay.cc.R;
+import com.mingmay.cc.app.CCApplication;
 import com.mingmay.cc.task.LoginTask;
+import com.mingmay.cc.util.ProgressDialogUtil;
+import com.mingmay.cc.util.ToastUtil;
 
 public class LoginPage extends Activity implements OnClickListener {
 	private EditText username, password;
@@ -18,7 +22,15 @@ public class LoginPage extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		if(CCApplication.loginUser!=null){
+			Intent i = new Intent(this, MainActivity.class);
+			startActivity(i);
+			finish();
+			return;
+		}
+		
 		setContentView(R.layout.layout_login);
 		initView();
 	}
@@ -43,6 +55,7 @@ public class LoginPage extends Activity implements OnClickListener {
 		String pwd = password.getText().toString();
 		LoginTask task = new LoginTask(this);
 		task.execute(name, pwd);
+		ProgressDialogUtil.showProgress(this, "正在登陆...");
 	}
 
 	@Override
