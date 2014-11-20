@@ -3,9 +3,11 @@ package com.mingmay.cc.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.mingmay.cc.MainActivity;
@@ -32,6 +34,7 @@ public class LoginPage extends Activity implements OnClickListener {
 		}
 		
 		setContentView(R.layout.layout_login);
+		findViewById(R.id.layout).setOnClickListener(this);
 		initView();
 	}
 
@@ -57,7 +60,6 @@ public class LoginPage extends Activity implements OnClickListener {
 		task.execute(name, pwd);
 		ProgressDialogUtil.showProgress(this, "正在登陆...");
 	}
-
 	@Override
 	public void onClick(View arg0) {
 		switch (arg0.getId()) {
@@ -71,6 +73,9 @@ public class LoginPage extends Activity implements OnClickListener {
 		case R.id.forget_password:
 			Intent forgetPassword = new Intent(this, RegistPage.class);
 			startActivity(forgetPassword);
+			break;
+		case R.id.layout:
+			        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),                                InputMethodManager.HIDE_NOT_ALWAYS);   
 			break;
 		default:
 			break;

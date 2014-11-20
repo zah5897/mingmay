@@ -21,15 +21,16 @@ import android.widget.TextView;
 
 import com.mingmay.cc.R;
 import com.mingmay.cc.app.CCApplication;
+import com.mingmay.cc.model.User;
 import com.mingmay.cc.util.ToastUtil;
 import com.mingmay.cc.util.http.HttpProxy;
 import com.mingmay.cc.view.widget.AlertDialog;
 
 public class RegistPage extends Activity implements OnClickListener {
 	private View fristStepView, secondStepView;
-	private EditText mobileView, codeView,nickNameView,passwordView;
+	private EditText mobileView, codeView, nickNameView, passwordView;
 	private TextView loadCodeView;
-	private String mobileStr,code,nick,password;
+	private String mobileStr, code, nick, password;
 	private boolean isSecondStep = false;
 	private boolean fristStepSuccess = false;
 
@@ -47,7 +48,8 @@ public class RegistPage extends Activity implements OnClickListener {
 		isSecondStep = false;
 		fristStepView.setVisibility(View.VISIBLE);
 		secondStepView.setVisibility(View.GONE);
-		loadCodeView=(TextView) fristStepView.findViewById(R.id.get_validate_code);
+		loadCodeView = (TextView) fristStepView
+				.findViewById(R.id.get_validate_code);
 		loadCodeView.setOnClickListener(this);
 		mobileView = (EditText) fristStepView.findViewById(R.id.mobile);
 		codeView = (EditText) fristStepView.findViewById(R.id.validate_code);
@@ -58,30 +60,31 @@ public class RegistPage extends Activity implements OnClickListener {
 	}
 
 	private void initSecondStep() {
-		mobileStr=mobileView.getText().toString().trim();
-		code=codeView.getText().toString().trim();
-		if(TextUtils.isEmpty(mobileStr)||mobileStr.length()!=11){
+		mobileStr = mobileView.getText().toString().trim();
+		code = codeView.getText().toString().trim();
+		if (TextUtils.isEmpty(mobileStr) || mobileStr.length() != 11) {
 			ToastUtil.showToast(this, "请输入手机号码");
 			return;
 		}
-		
-		if(TextUtils.isEmpty(code)){
+
+		if (TextUtils.isEmpty(code)) {
 			ToastUtil.showToast(this, "请输入验证码");
 			return;
 		}
-		
-		
+
 		isSecondStep = true;
 		fristStepView.setVisibility(View.GONE);
 		secondStepView.setVisibility(View.VISIBLE);
 		findViewById(R.id.regist_back).setOnClickListener(this);
 		findViewById(R.id.regist_btn).setOnClickListener(this);
-		nickNameView=(EditText) secondStepView.findViewById(R.id.nick_name);
-		passwordView=(EditText) secondStepView.findViewById(R.id.password);
+		nickNameView = (EditText) secondStepView.findViewById(R.id.nick_name);
+		passwordView = (EditText) secondStepView.findViewById(R.id.password);
 	}
+
 	private int timeUp = 0;
+
 	private void timer() {
-		timeUp=60;
+		timeUp = 60;
 		loadCodeView.setEnabled(false);
 		new Thread() {
 			@Override
@@ -101,7 +104,6 @@ public class RegistPage extends Activity implements OnClickListener {
 		}.start();
 
 	}
- 
 
 	@Override
 	public void onBackPressed() {
@@ -114,11 +116,11 @@ public class RegistPage extends Activity implements OnClickListener {
 
 	private void getCode() {
 		mobileStr = mobileView.getText().toString();
-		if (TextUtils.isEmpty(mobileStr)||mobileStr.length()!=11) {
+		if (TextUtils.isEmpty(mobileStr) || mobileStr.length() != 11) {
 			ToastUtil.showToast(this, "手机号不能为空");
 			return;
 		}
-		
+
 		timer();
 		new Thread() {
 			public void run() {
@@ -136,9 +138,12 @@ public class RegistPage extends Activity implements OnClickListener {
 						JSONObject obj = new JSONObject(rev);
 						int cstatus = obj.getJSONObject("body").getInt(
 								"cstatus");
-						if (cstatus == 0) {
-							handler.sendEmptyMessage(0);
-						}
+						Bundle data = new Bundle();
+						data.putInt("code", cstatus);
+						Message msg = handler.obtainMessage();
+						msg.setData(data);
+						msg.what = 0;
+						handler.sendMessage(msg);
 					} else {
 						handler.sendEmptyMessage(-1);
 					}
@@ -157,7 +162,7 @@ public class RegistPage extends Activity implements OnClickListener {
 			ToastUtil.showToast(this, "请输入昵称");
 			return;
 		}
-		if (nick.length()>8) {
+		if (nick.length() > 8) {
 			ToastUtil.showToast(this, "不要超过8位");
 			return;
 		}
@@ -165,7 +170,7 @@ public class RegistPage extends Activity implements OnClickListener {
 			ToastUtil.showToast(this, "请输入密码");
 			return;
 		}
-		if (password.length()<6||password.length()>12) {
+		if (password.length() < 6 || password.length() > 12) {
 			ToastUtil.showToast(this, "密码在6-12位之间");
 			return;
 		}
@@ -186,20 +191,25 @@ public class RegistPage extends Activity implements OnClickListener {
 					if (code == 200) {
 						String rev = EntityUtils.toString(response.getEntity());// 返回json格式：
 						JSONObject obj = new JSONObject(rev);
-						int cstatus = obj.getJSONObject("body").getInt(
-								"cstatus");
+						JSONObject body = obj.getJSONObject("body");
+						int cstatus = body.getInt("cstatus");
 						if (cstatus == 0) {
-							Bundle data = new Bundle();
-							data.putInt("code", cstatus);
-							Message msg = handler.obtainMessage();
-							msg.setData(data);
-							handler.sendMessage(msg);
+							User user = User.jsonToUser(body
+									.getJSONObject("userInfo"));
+							CCApplication.loginUser = user;
 						}
+						Bundle data = new Bundle();
+						data.putInt("code", cstatus);
+						Message msg = handler.obtainMessage();
+						msg.setData(data);
+						msg.what = 1;
+						handler.sendMessage(msg);
+
 					} else {
-						handler.sendEmptyMessage(-1);
+						handler.sendEmptyMessage(-2);
 					}
 				} catch (Exception e) {
-					handler.sendEmptyMessage(-1);
+					handler.sendEmptyMessage(-2);
 				}
 			}
 		}.start();
@@ -231,31 +241,60 @@ public class RegistPage extends Activity implements OnClickListener {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case 100:
-				loadCodeView.setText("重新获取验证码(" + timeUp + ")");
+				loadCodeView.setText("获取验证码(" + timeUp + ")");
 				if (timeUp < 0) {
 					loadCodeView.setText("获取验证码");
 					loadCodeView.setEnabled(true);
 				}
 				break;
-			case 0:
+			case 0: {
+				fristStepSuccess = false;
 				Bundle data = msg.getData();
 				int code = data.getInt("code");
 				if (code == 0) {
-					ToastUtil.showToast(RegistPage.this, "获取验证码失败");
+					ToastUtil.showToast(RegistPage.this,
+							"验证码将会发送到您输入的手机上，请注意查收");
 					fristStepSuccess = true;
 				} else if (code == 2) {
 					ToastUtil.showToast(RegistPage.this, "获取验证码失败");
-					fristStepSuccess = false;
+					 
+				} else if (code == 5) {
+					 
+					ToastUtil.showToast(RegistPage.this, "尝试次数过多次");
+				} else if (code == 7) {
+					 
+					ToastUtil.showToast(RegistPage.this, "该手机号已经注册");
+					reset();
+				}else{
+					ToastUtil.showToast(RegistPage.this, "获取验证码失败");
+				}
+			}
+				break;
+			case 1: {
+				Bundle data = msg.getData();
+				int code = data.getInt("code");
+				if (code == 0) {
+					ToastUtil.showToast(RegistPage.this, "注册成功");
+				} else if (code == 2) {
+					ToastUtil.showToast(RegistPage.this, "注册失败");
+				} else if (code == 3) {
+					ToastUtil.showToast(RegistPage.this, "验证码错误");
 				} else if (code == 5) {
 					ToastUtil.showToast(RegistPage.this, "尝试次数过多次");
 				} else if (code == 7) {
-					ToastUtil.showToast(RegistPage.this, "该手机号已经注册");
+					ToastUtil.showToast(RegistPage.this, "该手机号已经注册过了");
 					fristStepSuccess = true;
 					reset();
+				} else {
+					ToastUtil.showToast(RegistPage.this, "注册失败");
 				}
+			}
 				break;
 			case -1:
 				ToastUtil.showToast(RegistPage.this, "获取验证码失败");
+				break;
+			case -2:
+				ToastUtil.showToast(RegistPage.this, "注册失败");
 				break;
 			default:
 				break;

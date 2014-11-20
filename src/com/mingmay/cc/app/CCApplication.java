@@ -36,8 +36,9 @@ public class CCApplication extends Application {
 	public static String ln;
 	public static String mod = android.os.Build.MODEL;
 
+	public static final String HTTPSERVER="http://115.28.168.181:8081/cc";
 //	 public static final String HTTPSERVER="http://115.28.168.181:8080/cc";
-	public static final String HTTPSERVER = "http://192.168.10.115:8080/cc";
+//	public static final String HTTPSERVER = "http://192.168.10.115:8080/cc";
 	// public static final String HTTPSERVER="http://192.168.10.115:8080/cc";
 	// public static final String HTTPSERVER="http://192.168.10.116:8080/cc";
 	// public static final String HTTPSERVER="http://115.28.168.181:8080/cc";

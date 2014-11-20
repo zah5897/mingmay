@@ -68,7 +68,6 @@ public class LoginTask extends AsyncTask<String, String, Integer> {
 		param.addAll(CCApplication.header);
 		param.add(new BasicNameValuePair("cellPhone", username));
 		param.add(new BasicNameValuePair("password", password));
-		param.add(new BasicNameValuePair("st", String.valueOf(System.currentTimeMillis())));
 		HttpResponse response = new HttpProxy().post(url, param);
 		int code = response.getStatusLine().getStatusCode();
 		if (code == 200) {
